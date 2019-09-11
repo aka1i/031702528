@@ -20,19 +20,22 @@ public class AddressUtil {
             phoneNumber = a.group();
         }
         jsonObject.put("手机",phoneNumber);
-        String b[] = address.split(phoneRegex);
-        address = b[0] + b[1];
-        String c[] = address.split(",");
-        String name = c[0];
-        address = c[1];
+        String splitPhone[] = address.split(phoneRegex);    //分割手机号
+        address = splitPhone[0] + splitPhone[1];
+        String addreOnly[] = address.split(","); //分割姓名
+        String name = addreOnly[0];
+        address = addreOnly[1];
         jsonObject.put("姓名",name);
-        String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|.*?市)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<town>[^区]+区|.+镇)?(?<village>.*)";
+        String regex="(?<province>[^省]+自治区|.*?省|.*?行政区)?(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)?(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>[^区]+区|.+镇|.+街道)?(?<village>.*)";
         Matcher m= Pattern.compile(regex).matcher(address);
         JSONArray addressArray = new JSONArray();
-        while(m.find()){
+        if (m.find()){
             province=m.group("province");
-            addressArray.put(province==null?"":province.trim());
             city=m.group("city");
+            if (province == null && city != null)
+                province = city.substring(0,city.length() - 1);
+
+            addressArray.put(province==null?"":province.trim());
             addressArray.put(city==null?"":city.trim());
             county=m.group("county");
             addressArray.put(county==null?"":county.trim());
