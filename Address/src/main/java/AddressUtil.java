@@ -94,6 +94,8 @@ public class AddressUtil {
         String name = addreOnly[0];
         if (splitPhone.length == 1)
             address = "";
+        else
+            address = addreOnly[1];
         jsonObject.put("姓名",name);
         JSONArray addressArray = new JSONArray();
         province = getProvince(address);
