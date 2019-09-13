@@ -28,7 +28,6 @@ public class AddressUtil {
     private static String village = "";
     public static JSONObject addressResolutionVersion1(String address){
         String phoneNumber = null;
-        String province,city,county,town,village;
         JSONObject jsonObject = new JSONObject();
         String phoneRegex = "\\d{11}";
         Matcher a = Pattern.compile(phoneRegex).matcher(address);
@@ -128,8 +127,8 @@ public class AddressUtil {
     }
 
     private static String getProvince(String address){
-        for (int i = 1; i < address.length(); i++){
-            for (Map.Entry<String,Object> entry: AreaCodeConvert.map.entrySet()){
+        for (Map.Entry<String,Object> entry: AreaCodeConvert.map.entrySet()){
+            for (int i = 1; i < address.length(); i++){
                 LinkedHashMap<String,Object> pMap = (LinkedHashMap<String,Object>)entry.getValue();
                 String pName = (String) pMap.get("name");
                 String lastStr = pName.substring(pName.length() - 1);
@@ -164,9 +163,9 @@ public class AddressUtil {
     }
 
     private static String getCity(String address){
-        for (int i = 1; i < address.length(); i++){
-            cMap = ((LinkedHashMap<String,Object>)(((LinkedHashMap<String,Object>)AreaCodeConvert.map.get(pCode.substring(0,2))).get("children")));
-            for (Map.Entry<String,Object> entry: cMap.entrySet()){
+        cMap = ((LinkedHashMap<String,Object>)(((LinkedHashMap<String,Object>)AreaCodeConvert.map.get(pCode.substring(0,2))).get("children")));
+        for (Map.Entry<String,Object> entry: cMap.entrySet()){
+            for (int i = 1; i < address.length(); i++){
                 LinkedHashMap<String,Object> cMap = (LinkedHashMap<String,Object>)(entry.getValue());
                 String cName = (String) cMap.get("name");
                 String lastStr = cName.substring(cName.length() - 1);
