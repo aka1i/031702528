@@ -92,7 +92,8 @@ public class AddressUtil {
             address = splitPhone[0];
         String addreOnly[] = address.split(","); //分割姓名
         String name = addreOnly[0];
-        address = addreOnly[1];
+        if (splitPhone.length == 1)
+            address = "";
         jsonObject.put("姓名",name);
         JSONArray addressArray = new JSONArray();
         province = getProvince(address);

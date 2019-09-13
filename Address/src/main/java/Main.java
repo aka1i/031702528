@@ -16,7 +16,7 @@ public class Main {
         System.out.println(AddressUtil.addressResolutionVersion2("张三,福建福州市闽13599622362侯县上街镇福州大学10#111"));
         System.out.println(AddressUtil.addressResolutionVersion2("王五,福建省福州市鼓楼18960221533区五一北路123号福州鼓楼医院"));
         System.out.println(AddressUtil.addressResolutionVersion2("小美,北京市东15822153326城区交道口东大街1号北京市东城区人民法院"));
-  //      System.out.println(AddressUtil.addressResolutionVersion2("小陈,香港11111111111"));
+        System.out.println(AddressUtil.addressResolutionVersion2("小陈"));
     }
 
 
