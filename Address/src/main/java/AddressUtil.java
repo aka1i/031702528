@@ -86,7 +86,10 @@ public class AddressUtil {
         }
         jsonObject.put("手机",phoneNumber);
         String splitPhone[] = address.split(phoneRegex);    //分割手机号
-        address = splitPhone[0] + splitPhone[1];
+        if (splitPhone.length > 1)
+            address = splitPhone[0] + splitPhone[1];
+        else
+            address = splitPhone[0];
         String addreOnly[] = address.split(","); //分割姓名
         String name = addreOnly[0];
         address = addreOnly[1];
@@ -136,32 +139,37 @@ public class AddressUtil {
 
     private static String getProvince(String address){
         for (Map.Entry<String,Object> entry: AreaCodeConvert.map.entrySet()){
-            for (int i = 1; i < address.length(); i++){
+            for (int i = 1; i <= address.length(); i++){
                 LinkedHashMap<String,Object> pMap = (LinkedHashMap<String,Object>)entry.getValue();
                 String pName = (String) pMap.get("name");
                 String lastStr = pName.substring(pName.length() - 1);
                 if (lastStr.equals("省") || lastStr.equals("市")){
                     if ((pName.substring(0,pName.length() - 1)).equals(address.substring(0,i))){
                         pCode = (String) pMap.get("code");
-                        if (address.charAt(i) == '省' || address.charAt(i) == '市')
+                        if (address.length() >= i + 1 && (address.charAt(i) == '省' || address.charAt(i) == '市'))
                             pLong = i + 1;
                         else
                             pLong = i;
                         return pName;
                     }
                 }
-
                 else if (lastStr.equals("区")){
-                    if (pName.length() > 3 && (pName.substring(0,pName.length() - 3)).equals(address.substring(0,i)))
+                    if (pName.substring(pName.length() - 3).equals("自治区") && (pName.substring(0,pName.length() - 3)).equals(address.substring(0,i)))
                     {
                         pCode = (String) pMap.get("code");
-                        pLong = i + 3;
+                        if (address.length() >= i + 3 && address.substring(i,i + 3).equals("自治区"))
+                            pLong = i + 3;
+                        else
+                            pLong = i;
                         return pName;
                     }
-                    if (pName.length() > 5 && (pName.substring(0,pName.length() - 5)).equals(address.substring(0,i)))
+                    else if (pName.substring(pName.length() - 5).equals("特别行政区") && (pName.substring(0,pName.length() - 5)).equals(address.substring(0,i)))
                     {
                         pCode = (String) pMap.get("code");
-                        pLong = i + 5;
+                        if (address.length() >= i + 5 && address.substring(i,i + 5).equals("特别行政区"))
+                            pLong = i + 5;
+                        else
+                            pLong = i;
                         return pName;
                     }
                 }
@@ -172,15 +180,17 @@ public class AddressUtil {
 
     private static String getCity(String address){
         cMap = ((LinkedHashMap<String,Object>)(((LinkedHashMap<String,Object>)AreaCodeConvert.map.get(pCode.substring(0,2))).get("children")));
+        if (cMap == null)
+            return "";
         for (Map.Entry<String,Object> entry: cMap.entrySet()){
-            for (int i = 1; i < address.length(); i++){
+            for (int i = 1; i <= address.length(); i++){
                 LinkedHashMap<String,Object> cMap = (LinkedHashMap<String,Object>)(entry.getValue());
                 String cName = (String) cMap.get("name");
                 String lastStr = cName.substring(cName.length() - 1);
                 if (lastStr.equals("市") || lastStr.equals("盟") || lastStr.equals("县")){
                     if ((cName.substring(0,cName.length() - 1)).equals(address.substring(0,i))){
                         cCode = (String) cMap.get("code");
-                        if (address.charAt(i) == '市' || address.charAt(i) == '盟' || address.charAt(i) == '县')
+                        if (address.length() >= i + 1 && (address.charAt(i) == '市' || address.charAt(i) == '盟' || address.charAt(i) == '县'))
                             cLong = i + 1;
                         else
                             cLong = i;
@@ -189,7 +199,7 @@ public class AddressUtil {
                 }else if (lastStr.equals("区")){
                     if ((cName.substring(0,cName.length() - 2)).equals(address.substring(0,i))){
                         cCode = (String) cMap.get("code");
-                        if (address.substring(i,i + 2).equals("地区"))
+                        if (address.length() >= i + 2 && address.substring(i,i + 2).equals("地区"))
                             cLong = i + 2;
                         else
                             cLong = i;
@@ -199,7 +209,7 @@ public class AddressUtil {
                 }else if (lastStr.equals("州")){
                     if ((cName.substring(0,cName.length() - 3)).equals(address.substring(0,i))){
                         cCode = (String) cMap.get("code");
-                        if (address.substring(i,i + 3).equals("自治州"))
+                        if (address.length() >= i + 3 && address.substring(i,i + 3).equals("自治州"))
                             cLong = i + 3;
                         else
                             cLong = i;
@@ -219,17 +229,17 @@ public class AddressUtil {
         for (LinkedHashMap<String,Object> map : countyMapList){
             String countyName = (String) map.get("name");
             String lastStr = countyName.substring(countyName.length() - 1);
-            for (int i = 1; i < address.length(); i++){
+            for (int i = 1; i <= address.length(); i++){
                 if (lastStr.equals("区") || lastStr.equals("市") || lastStr.equals("旗") || lastStr.equals("岛") ||  lastStr.equals("县")){
                     if ((countyName.substring(0,countyName.length() - 1)).equals(address.substring(0,i))){
                         cCode = (String) cMap.get("code");
-                        if (address.charAt(i) == '区' || address.charAt(i) == '市' || address.charAt(i) == '旗' || address.charAt(i) == '岛' || address.charAt(i) == '县')
+                        if (address.length() >= i + 1 && ( address.charAt(i) == '区' || address.charAt(i) == '市' || address.charAt(i) == '旗' || address.charAt(i) == '岛' || address.charAt(i) == '县'))
                             countyLong = i + 1;
                         else
                             countyLong = i;
                         return countyName;
                     }
-                }else if (lastStr.equals("域")){
+                }else if (address.length() >= i + 2 && lastStr.equals("域")){
                     if ((countyName.substring(0,countyName.length() - 2)).equals(address.substring(0,i))){
                         cCode = (String) cMap.get("code");
                         if (address.substring(i,i + 2) == "海域")
@@ -249,19 +259,18 @@ public class AddressUtil {
             cMap = ((LinkedHashMap<String,Object>)(((LinkedHashMap<String,Object>)e.getValue())).get("children"));
             if (cMap == null)
             {
-                System.out.println(cMap);
                 continue;
             }
 
             for (Map.Entry<String,Object> entry: cMap.entrySet()){
-                for (int i = 1; i < address.length(); i++){
+                for (int i = 1; i <= address.length(); i++){
                     LinkedHashMap<String,Object> cMap = (LinkedHashMap<String,Object>)(entry.getValue());
                     String cName = (String) cMap.get("name");
                     String lastStr = cName.substring(cName.length() - 1);
                     if (lastStr.equals("市") || lastStr.equals("盟") || lastStr.equals("县")){
                         if ((cName.substring(0,cName.length() - 1)).equals(address.substring(0,i))){
                             cCode = (String) cMap.get("code");
-                            if (address.charAt(i) == '市' || address.charAt(i) == '盟' || address.charAt(i) == '县')
+                            if (address.length() >= i + 1 && (address.charAt(i) == '市' || address.charAt(i) == '盟' || address.charAt(i) == '县'))
                                 cLong = i + 1;
                             else
                                 cLong = i;
@@ -270,7 +279,7 @@ public class AddressUtil {
                     }else if (lastStr.equals("区")){
                         if ((cName.substring(0,cName.length() - 2)).equals(address.substring(0,i))){
                             cCode = (String) cMap.get("code");
-                            if (address.substring(i,i + 2).equals("地区"))
+                            if (address.length() >= i + 2 && address.substring(i,i + 2).equals("地区"))
                                 cLong = i + 2;
                             else
                                 cLong = i;
@@ -280,7 +289,7 @@ public class AddressUtil {
                     }else if (lastStr.equals("州")){
                         if ((cName.substring(0,cName.length() - 3)).equals(address.substring(0,i))){
                             cCode = (String) cMap.get("code");
-                            if (address.substring(i,i + 3).equals("自治州"))
+                            if (address.length() >= i + 3 && address.substring(i,i + 3).equals("自治州"))
                                 cLong = i + 3;
                             else
                                 cLong = i;
@@ -298,16 +307,20 @@ public class AddressUtil {
     private static String getCountyWithoutProvinceAndCity(String address){
         for (Map.Entry<String,Object> e: AreaCodeConvert.map.entrySet()){
             cMap = ((LinkedHashMap<String,Object>)(((LinkedHashMap<String,Object>)e.getValue())).get("children"));
+            if (cMap == null)
+                continue;
             for (Map.Entry<String,Object> entry: cMap.entrySet()){
                 countyMapList = (ArrayList<LinkedHashMap<String,Object>>)(((LinkedHashMap<String,Object>)entry.getValue())).get("children");
+                if (countyMapList == null)
+                    continue;
                 for (LinkedHashMap<String,Object> map : countyMapList){
                     String countyName = (String) map.get("name");
                     String lastStr = countyName.substring(countyName.length() - 1);
-                    for (int i = 1; i < address.length(); i++){
+                    for (int i = 1; i <= address.length(); i++){
                         if (lastStr.equals("区") || lastStr.equals("市") || lastStr.equals("旗") || lastStr.equals("岛") ||  lastStr.equals("县")){
                             if ((countyName.substring(0,countyName.length() - 1)).equals(address.substring(0,i))){
                                 cCode = (String) cMap.get("code");
-                                if (address.charAt(i) == '区' || address.charAt(i) == '市' || address.charAt(i) == '旗' || address.charAt(i) == '岛' || address.charAt(i) == '县')
+                                if (address.length() >= i + 1 && (address.charAt(i) == '区' || address.charAt(i) == '市' || address.charAt(i) == '旗' || address.charAt(i) == '岛' || address.charAt(i) == '县'))
                                     countyLong = i + 1;
                                 else
                                     countyLong = i;
@@ -316,7 +329,7 @@ public class AddressUtil {
                         }else if (lastStr.equals("域")){
                             if ((countyName.substring(0,countyName.length() - 2)).equals(address.substring(0,i))){
                                 cCode = (String) cMap.get("code");
-                                if (address.substring(i,i + 2) == "海域")
+                                if (address.length() >= i + 2 && address.substring(i,i + 2) == "海域")
                                     countyLong = i + 2;
                                 else
                                     countyLong = i;
@@ -332,16 +345,18 @@ public class AddressUtil {
     }
     private static String getCountyWithoutCity(String address){
         cMap = ((LinkedHashMap<String,Object>)(((LinkedHashMap<String,Object>)AreaCodeConvert.map.get(pCode.substring(0,2)))).get("children"));
+        if (cMap == null)
+            return "";
         for (Map.Entry<String,Object> entry: cMap.entrySet()){
             countyMapList = (ArrayList<LinkedHashMap<String,Object>>)(((LinkedHashMap<String,Object>)entry.getValue())).get("children");
             for (LinkedHashMap<String,Object> map : countyMapList){
                 String countyName = (String) map.get("name");
                 String lastStr = countyName.substring(countyName.length() - 1);
-                for (int i = 1; i < address.length(); i++){
+                for (int i = 1; i <= address.length(); i++){
                     if (lastStr.equals("区") || lastStr.equals("市") || lastStr.equals("旗") || lastStr.equals("岛") ||  lastStr.equals("县")){
                         if ((countyName.substring(0,countyName.length() - 1)).equals(address.substring(0,i))){
                             cCode = (String) cMap.get("code");
-                            if (address.charAt(i) == '区' || address.charAt(i) == '市' || address.charAt(i) == '旗' || address.charAt(i) == '岛' || address.charAt(i) == '县')
+                            if (address.length() >= i + 1 && (address.charAt(i) == '区' || address.charAt(i) == '市' || address.charAt(i) == '旗' || address.charAt(i) == '岛' || address.charAt(i) == '县'))
                                 countyLong = i + 1;
                             else
                                 countyLong = i;
@@ -350,7 +365,7 @@ public class AddressUtil {
                     }else if (lastStr.equals("域")){
                         if ((countyName.substring(0,countyName.length() - 2)).equals(address.substring(0,i))){
                             cCode = (String) cMap.get("code");
-                            if (address.substring(i,i + 2) == "海域")
+                            if (address.length() >= i + 2 && address.substring(i,i + 2) == "海域")
                                 countyLong = i + 2;
                             else
                                 countyLong = i;
