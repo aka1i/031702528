@@ -31,7 +31,7 @@ public class Main {
                     array.put(new JSONObject());
 
             }
-
+            out.write(array.toString());
             out.close();
             r.close();
 
