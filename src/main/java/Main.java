@@ -16,7 +16,7 @@ public class Main {
         try {
             File f = new File(args[0]);
             BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
-            BufferedWriter out = new BufferedWriter(new FileWriter(args[1]));
+            BufferedWriter out = new BufferedWriter(new FileWriter(args[0]));
             String l = null;
             JSONArray array = new JSONArray();
             while ((l = r.readLine()) != null) {
@@ -24,9 +24,9 @@ public class Main {
                 String split[] = address.split("!");
 //                System.out.println(AddressUtil.addressResolutionVersion2(split[1],1));
                 if (split[0].equals("1")){
-                    array.put(AddressUtil.addressResolutionVersion2(split[1],1).toString());
+                    array.put(AddressUtil.addressResolutionVersion2(split[1],1));
                 }else if (split[0].equals("2")){
-                    array.put(AddressUtil.addressResolutionVersion2(split[1],2).toString());
+                    array.put(AddressUtil.addressResolutionVersion2(split[1],2));
                 }else
                     array.put(new JSONObject());
 
