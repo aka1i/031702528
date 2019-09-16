@@ -14,9 +14,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         try {
-            File f = new File("1.txt");
+            File f = new File(args[0]);
             BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
-            BufferedWriter out = new BufferedWriter(new FileWriter("2.txt"));
+            BufferedWriter out = new BufferedWriter(new FileWriter(args[1]));
             String l = null;
             JSONArray array = new JSONArray();
             while ((l = r.readLine()) != null && !l.equals("")) {
