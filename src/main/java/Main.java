@@ -1,4 +1,6 @@
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.LinkedHashMap;
@@ -16,16 +18,17 @@ public class Main {
             BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
             BufferedWriter out = new BufferedWriter(new FileWriter(args[1]));
             String l = null;
-
+            JSONArray array = new JSONArray();
             while ((l = r.readLine()) != null) {
                 String address = l.replace(".","");
                 String split[] = address.split("!");
 //                System.out.println(AddressUtil.addressResolutionVersion2(split[1],1));
                 if (split[0].equals("1")){
-                    out.write(AddressUtil.addressResolutionVersion2(split[1],1).toString() + "\r\n");
+                    array.put(AddressUtil.addressResolutionVersion2(split[1],1).toString());
                 }else if (split[0].equals("2")){
-                    out.write(AddressUtil.addressResolutionVersion2(split[1],2).toString() + "\r\n");
-                }
+                    array.put(AddressUtil.addressResolutionVersion2(split[1],2).toString());
+                }else
+                    array.put(new JSONObject());
 
             }
 
