@@ -16,7 +16,7 @@ public class Main {
         try {
             File f = new File(args[0]);
             BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
-            BufferedWriter out = new BufferedWriter(new FileWriter(args[0]));
+            BufferedWriter out = new BufferedWriter(new FileWriter(args[1]));
             String l = null;
             JSONArray array = new JSONArray();
             while ((l = r.readLine()) != null) {
