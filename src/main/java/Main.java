@@ -11,8 +11,6 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        scanner.next();
         try {
             File f = new File(args[0]);
             BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
@@ -43,7 +41,6 @@ public class Main {
             e.printStackTrace();
         }
 
-        scanner.next();
     }
 
 }
