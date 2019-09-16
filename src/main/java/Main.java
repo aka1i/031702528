@@ -14,12 +14,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         try {
-            File f = new File(args[0]);
+            File f = new File("1.txt");
             BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
-            BufferedWriter out = new BufferedWriter(new FileWriter(args[1]));
+            BufferedWriter out = new BufferedWriter(new FileWriter("2.txt"));
             String l = null;
             JSONArray array = new JSONArray();
-            while ((l = r.readLine()) != null) {
+            while ((l = r.readLine()) != null && !l.equals("")) {
                 String address = l.replace(".","");
                 String split[] = address.split("!");
 //                System.out.println(AddressUtil.addressResolutionVersion2(split[1],1));
