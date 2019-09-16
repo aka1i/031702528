@@ -16,9 +16,8 @@ public class AreaCodeConvert {
         // http://www.mca.gov.cn/article/sj/tjbz/a/2017/20178/201709251028.html
         // 直辖市和特别行政区比较讨厌，只有省的数据，没有市，或者没有区县，自己手动添加
         // 需要手动添加的有：北京，天津，上海，重庆，台湾，香港，澳门
-        File f = new File(AreaCodeConvert.class.getClassLoader().getResource("address.txt").getFile());
-        // 注意转码
-        BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
+        InputStream stream =  Main.class.getClassLoader().getResourceAsStream("address.txt");
+        BufferedReader r=new BufferedReader(new InputStreamReader(stream,"utf-8"));
 
         String l = null;
 
