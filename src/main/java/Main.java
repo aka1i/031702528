@@ -19,7 +19,7 @@ public class Main {
             BufferedWriter out = new BufferedWriter(new FileWriter(args[1]));
             String l = null;
             JSONArray array = new JSONArray();
-            while ((l = r.readLine()) != null && !l.equals("")) {
+            while ((l = r.readLine().trim()) != null && !l.equals("")) {
                 String address = l.replace(".","");
                 String split[] = address.split("!");
 //                System.out.println(AddressUtil.addressResolutionVersion2(split[1],1));
