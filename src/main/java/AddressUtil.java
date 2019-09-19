@@ -346,6 +346,8 @@ public class AddressUtil {
             return "";
         for (Map.Entry<String,Object> entry: cMap.entrySet()){
             countyMapList = (ArrayList<LinkedHashMap<String,Object>>)(((LinkedHashMap<String,Object>)entry.getValue())).get("children");
+            if (countyMapList == null)
+                return "";
             for (LinkedHashMap<String,Object> map : countyMapList){
                 String countyName = (String) map.get("name");
                 String lastStr = countyName.substring(countyName.length() - 1);
