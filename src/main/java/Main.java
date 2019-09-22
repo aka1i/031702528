@@ -17,6 +17,7 @@ public class Main {
             File f = new File(args[0]);
             BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
             File file=new File(args[1]);
+            f.createNewFile();
             FileOutputStream fos =new FileOutputStream(file,true);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
             String l = null;
