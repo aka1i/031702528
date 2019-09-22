@@ -36,7 +36,7 @@ public class Main {
                 strs[position] = l;
                 position++;
             }
-
+            r.close();
             for (int i = 0;i < position; i++){
                 String address = strs[i].replace(".","");
                 String split[] = address.split("!");
@@ -82,7 +82,6 @@ public class Main {
 //            System.out.println(count);
             out.write(array.toString());
             out.close();
-            r.close();
     //        r2.close();
 
 
