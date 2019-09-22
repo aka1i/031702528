@@ -14,9 +14,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         try {
-            File f = new File(args[0]);
+            File f = new File("1.txt");
             BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"));
-            BufferedWriter out = new BufferedWriter(new FileWriter(args[1]));
+            File file=new File("2.txt");
+            FileOutputStream fos =new FileOutputStream(file,true);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
             String l = null;
 //            File f2 = new File("answer.txt");
 //            BufferedReader r2 = new BufferedReader(new InputStreamReader(new FileInputStream(f2), "utf-8"));
