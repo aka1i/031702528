@@ -83,6 +83,7 @@ public class Main {
 //            System.out.println(level3);
 //            System.out.println(count);
             out.write(array.toString());
+            out.flush();
             out.close();
     //        r2.close();
 
