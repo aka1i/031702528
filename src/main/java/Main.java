@@ -30,10 +30,16 @@ public class Main {
 //                l3 += l2.trim();
 //            }
             JSONArray array = new JSONArray();
+            String[] strs = new String[4096000];
+            int position = 0;
             while ((l = r.readLine()) != null && !l.equals("")) {
-                String address = l.replace(".","");
+                strs[position] = l;
+                position++;
+            }
+
+            for (int i = 0;i < position; i++){
+                String address = strs[i].replace(".","");
                 String split[] = address.split("!");
-//                System.out.println(AddressUtil.addressResolutionVersion2(split[1],1));
                 if (split[0].equals("1")){
                     array.put(AddressUtil.addressResolutionVersion2(split[1],1));
                 }else if (split[0].equals("2")){
@@ -45,8 +51,6 @@ public class Main {
                     jsonObject.put("地址",new JSONArray());
                     array.put(jsonObject);
                 }
-
-
             }
 //            JSONArray jsonArray2 = new JSONArray(l3);
 //            for (int i = 0; i < array.length(); i++){
